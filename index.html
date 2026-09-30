@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Лена Королева — фотограф | Пенза</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================================
+       ДИЗАЙН-СИСТЕМА «Nathan Riley» — монохромная галерея-мозаика
+       Палитра: чёрный / белый / тёплый уголь / пыльная роза
+       Только 4 цвета, 0 скруглений (кроме пилюль), 0 теней, 0 градиентов
+    ===================================================================== */
+
+    :root {
+      --color-pure-black: #000000;
+      --color-paper-white: #ffffff;
+      --color-warm-charcoal: #393939;
+      --color-blush-card: #e8c4c0;
+
+      --font-display: 'Playfair Display', 'Times New Roman', serif;
+      --font-body: 'Playfair Display', Georgia, serif;
+
+      --text-display: clamp(3.5rem, 12vw, 13rem);
+      --leading-display: 0.85;
+      --tracking-display: -0.04em;
+
+      --text-body: 16px;
+      --leading-body: 1.1;
+      --tracking-body: -0.025em;
+
+      --spacing-6: 6px;
+      --spacing-16: 16px;
+      --spacing-29: 29px;
+      --spacing-38: 38px;
+
+      --card-padding: 38px;
+      --element-gap: 6px;
+      --gutter: 2px;
+
+      --radius-tags: 9999px;
+      --radius-cards: 0px;
+      --radius-images: 0px;
+      --radius-inputs: 0px;
+      --radius-buttons: 9999px;
+
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --overshoot: cubic-bezier(0.18, 1.25, 0.4, 1);
+      --glide: cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--color-pure-black);
+      background: var(--color-paper-white);
+      line-height: 1.5;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* =====================================================================
+       HERO — полноэкранная мозаика + центральная карточка имени
+    ===================================================================== */
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: stretch;
+    }
+
+    /* Фото-мозаика сверху экрана, выровнена по низу блока */
+    .hero__mosaic {
+      position: static;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: 21vh;
+      grid-auto-flow: dense;
+      gap: var(--gutter);
+      background: var(--color-pure-black);
+      max-height: 78vh;
+    }
+
+    .hero__mosaic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius-images);
+    }
+
+    .hero__mosaic img:nth-child(3n) {
+      grid-row: span 2;
+    }
+
+    .hero__mosaic img:nth-child(5n) {
+      grid-column: span 2;
+    }
+
+    /* Полоса контента под мозаикой — имя, био, ссылка, пилюли */
+    .name-card {
+      position: static;
+      z-index: 2;
+      background: var(--color-paper-white);
+      padding: 40px 48px;
+      border-top: 2px solid var(--color-pure-black);
+      border-radius: var(--radius-cards);
+      box-shadow: none;
+      max-width: none;
+      opacity: 0;
+      transform: translateY(60px) scale(0.9);
+      transition: transform 0.55s var(--overshoot), opacity 0.3s ease;
+    }
+
+    .name-card.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .name-card__title {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: var(--leading-display);
+      letter-spacing: var(--tracking-display);
+      color: var(--color-pure-black);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .name-card__bio {
+      font-size: var(--text-body);
+      line-height: var(--leading-body);
+      letter-spacing: var(--tracking-body);
+      color: var(--color-warm-charcoal);
+      max-width: 560px;
+      margin-top: 14px;
+      text-align: left;
+    }
+
+    .name-card__link {
+      display: block;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: var(--color-pure-black);
+      margin-top: 14px;
+    }
+
+    .name-card__link:hover {
+      color: var(--color-warm-charcoal);
+    }
+
+    /* Ряд навигационных пилюль — в полосе контента, внизу */
+    .name-card__nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: var(--element-gap);
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .nav-chip {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-pure-black);
+      background: var(--color-paper-white);
+      border: 1px solid var(--color-pure-black);
+      border-radius: var(--radius-buttons);
+      padding: 5px 18px;
+      cursor: pointer;
+      transition: transform 0.5s var(--spring), background 0.2s ease;
+    }
+
+    .nav-chip:hover {
+      transform: scale(1.10);
+      background: var(--color-blush-card);
+    }
+
+    /* =====================================================================
+       СЕКЦИИ — в том же стиле галереи, без скруглений и теней
+    ===================================================================== */
+
+    .section {
+      padding: 96px 0;
+      border-top: 2px solid var(--color-pure-black);
+    }
+
+    .section--white {
+      background: var(--color-paper-white);
+      color: var(--color-pure-black);
+    }
+
+    .section--charcoal {
+      background: var(--color-warm-charcoal);
+      color: var(--color-paper-white);
+    }
+
+    .section--black {
+      background: var(--color-pure-black);
+      color: var(--color-paper-white);
+    }
+
+    .section--blush {
+      background: var(--color-blush-card);
+      color: var(--color-pure-black);
+    }
+
+    .section__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section__title {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .section__subtitle {
+      font-size: 14px;
+      line-height: var(--leading-body);
+      letter-spacing: var(--tracking-body);
+      color: var(--color-warm-charcoal);
+      margin-bottom: 48px;
+      max-width: 520px;
+    }
+
+    /* =====================================================================
+       ПОРТФОЛИО — табы со скользящей пилюлей + мозаичные сетки
+    ===================================================================== */
+
+    .portfolio__tabs {
+      position: relative;
+      display: flex;
+      gap: var(--element-gap);
+      border-bottom: 2px solid var(--color-pure-black);
+      padding-bottom: 0;
+      margin-bottom: 40px;
+    }
+
+    /* Скользящая пилюля (Kinetics: Tab Pill Glide) */
+    .portfolio__tabs .pill-indicator {
+      position: absolute;
+      bottom: 0;
+      height: 4px;
+      background: var(--color-pure-black);
+      transition: left 0.4s var(--glide), width 0.4s var(--glide);
+    }
+
+    .portfolio__tab {
+      background: none;
+      border: none;
+      border-radius: 0;
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-warm-charcoal);
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .portfolio__tab.active {
+      color: var(--color-pure-black);
+      font-weight: 400;
+    }
+
+    .portfolio__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gutter);
+      background: var(--color-pure-black);
+    }
+
+    .portfolio__grid img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: var(--radius-images);
+      transition: transform 0.5s var(--spring), opacity 0.3s ease;
+    }
+
+    .portfolio__grid img:hover {
+      transform: scale(1.02);
+      opacity: 0.92;
+    }
+
+    /* =====================================================================
+       УСЛУГИ — плоские карточки, 0 радиус, 0 тень
+    ===================================================================== */
+
+    .services__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gutter);
+      background: var(--color-pure-black);
+      margin-bottom: 40px;
+    }
+
+    .service-card {
+      background: var(--color-paper-white);
+      border-radius: var(--radius-cards);
+      border: 1px solid var(--color-pure-black);
+      padding: 42px 36px 36px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.5s var(--spring);
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .service-card--popular {
+      background: var(--color-paper-white);
+      border: 1px solid var(--color-pure-black);
+      border-left: 6px solid var(--color-pure-black);
+      position: relative;
+    }
+
+    .service-card--popular::before {
+      content: 'популярный';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-pure-black);
+      color: var(--color-paper-white);
+      padding: 3px 16px;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .service-card__title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.6rem;
+      line-height: 1.05;
+    }
+
+    .service-card__duration {
+      font-size: 13px;
+      color: var(--color-warm-charcoal);
+      margin-top: 8px;
+      letter-spacing: 0.06em;
+    }
+
+    .service-card__features {
+      list-style: none;
+      padding: 0;
+      margin: 28px 0 0;
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--color-warm-charcoal);
+      flex: 1;
+    }
+
+    .service-card__features li::before {
+      content: '• ';
+      color: var(--color-pure-black);
+    }
+
+    .service-card__price {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 2.4rem;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 2px solid var(--color-pure-black);
+    }
+
+    .services__footer {
+      text-align: center;
+      font-size: 14px;
+      line-height: var(--leading-body);
+      color: var(--color-warm-charcoal);
+      max-width: 560px;
+      margin: 40px auto 0;
+    }
+
+    .services__footer a {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* =====================================================================
+       ОБО МНЕ — монохром: фото без рамки + биография
+    ===================================================================== */
+
+    .about__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .about__photo img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: var(--radius-images);
+      transition: transform 0.5s var(--spring);
+    }
+
+    .about__photo:hover img {
+      transform: scale(1.01);
+    }
+
+    .about__text p {
+      font-size: var(--text-body);
+      line-height: var(--leading-body);
+      letter-spacing: var(--tracking-body);
+      color: var(--color-warm-charcoal);
+      margin-bottom: 16px;
+    }
+
+    .about__facts {
+      margin-top: 28px;
+      padding-left: 0;
+      font-size: 14px;
+      color: var(--color-warm-charcoal);
+    }
+
+    .about__facts li::before {
+      content: '— ';
+      color: var(--color-pure-black);
+    }
+
+    /* =====================================================================
+       ОТЗЫВЫ — монохромные скриншоты в ряд
+    ===================================================================== */
+
+    .reviews__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gutter);
+      background: var(--color-pure-black);
+    }
+
+    .review-card {
+      background: var(--color-paper-white);
+      border-radius: var(--radius-cards);
+      overflow: hidden;
+      transition: transform 0.5s var(--spring);
+    }
+
+    .review-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .review-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 0;
+      background: var(--color-paper-white);
+    }
+
+    /* =====================================================================
+       FAQ — аккордеон с пружинным раскрытием (Kinetics: Accordion Spring)
+    ===================================================================== */
+
+    .faq__list {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .faq__item {
+      border-bottom: 1px solid var(--color-paper-white);
+    }
+
+    .faq__question {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 8px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--color-paper-white);
+      cursor: pointer;
+    }
+
+    .faq__chevron {
+      display: inline-block;
+      transition: transform 0.35s var(--spring);
+      color: var(--color-paper-white);
+    }
+
+    .faq__item.open .faq__chevron {
+      transform: rotate(180deg);
+    }
+
+    .faq__answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .faq__item.open .faq__answer {
+      max-height: 400px;
+    }
+
+    .faq__answer p {
+      padding: 8px 8px 20px;
+      font-size: 14px;
+      line-height: var(--leading-body);
+      color: #d0d0d0;
+    }
+
+    /* =====================================================================
+       КОНТАКТЫ / CTA
+    ===================================================================== */
+
+    .contacts__cta {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .contacts__cta .section__title {
+      margin-bottom: 20px;
+    }
+
+    .contacts__text {
+      font-size: var(--text-body);
+      line-height: var(--leading-body);
+      color: var(--color-warm-charcoal);
+      margin-bottom: 32px;
+    }
+
+    .contacts__btn {
+      display: inline-block;
+      padding: 8px 32px;
+      border-radius: var(--radius-buttons);
+      background: var(--color-pure-black);
+      color: var(--color-paper-white);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      cursor: pointer;
+      transition: transform 0.5s var(--spring), background 0.2s ease;
+    }
+
+    .contacts__btn:hover {
+      transform: scale(1.07);
+      background: var(--color-warm-charcoal);
+    }
+
+    .contacts__location {
+      margin-top: 24px;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--color-warm-charcoal);
+    }
+
+    /* =====================================================================
+       ПОДВАЛ — минимализм, чёрная строка
+    ===================================================================== */
+
+    .footer {
+      border-top: 2px solid var(--color-pure-black);
+      padding: 48px 0;
+      background: var(--color-pure-black);
+      color: var(--color-paper-white);
+      text-align: center;
+    }
+
+    .footer__name {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 1.6rem;
+      letter-spacing: 0.02em;
+    }
+
+    .footer__city {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      margin-top: 8px;
+      color: #c9c9c9;
+    }
+
+    .footer__vk {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 5px 22px;
+      border-radius: var(--radius-buttons);
+      background: var(--color-blush-card);
+      color: var(--color-pure-black);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: transform 0.5s var(--spring);
+    }
+
+    .footer__vk:hover {
+      transform: scale(1.06);
+    }
+
+    .footer__copy {
+      margin-top: 24px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: #8f8f8f;
+    }
+
+    /* =====================================================================
+       АДАПТИВНОСТЬ
+    ===================================================================== */
+
+    @media (max-width: 1024px) {
+      .hero__mosaic {
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 16vh;
+      }
+
+      .services__grid,
+      .reviews__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .about__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portfolio__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero__mosaic {
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 12vh;
+      }
+
+      .name-card {
+        padding: 24px 16px;
+      }
+
+      .name-card__title {
+        font-size: clamp(2rem, 8vw, 3rem);
+        white-space: normal;
+      }
+
+      .section {
+        padding: 64px 0;
+      }
+
+      .portfolio__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero__mosaic {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 11vh;
+      }
+
+      .portfolio__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reviews__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about__grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =====================================================================
+       HERO: мозаика на весь экран + центральная карточка имени
+  ===================================================================== -->
+  <section class="hero" id="hero">
+    <!-- Фото-мозаика из папки «Работы». Замените src на реальные файлы при необходимости -->
+    <div class="hero__mosaic">
+      <img src="Работы/1.jpg" alt="Работа фотографа">
+      <img src="Работы/2.jpg" alt="Работа фотографа">
+      <img src="Работы/3.jpg" alt="Работа фотографа">
+      <img src="Работы/4.jpg" alt="Работа фотографа">
+      <img src="Работы/5.jpg" alt="Работа фотографа">
+      <img src="Работы/12.jpg" alt="Работа фотографа">
+      <img src="Работы/16.jpg" alt="Работа фотографа">
+      <img src="Работы/34.jpg" alt="Работа фотографа">
+      <img src="Работы/65.jpg" alt="Работа фотографа">
+      <img src="Работы/123.jpg" alt="Работа фотографа">
+      <img src="Работы/1234.jpg" alt="Работа фотографа">
+      <img src="Работы/12345.jpg" alt="Работа фотографа">
+      <img src="Работы/chatgpt_image (2).png" alt="Работа фотографа">
+      <img src="Работы/аццу.jpg" alt="Работа фотографа">
+      <img src="Работы/ввв.jpg" alt="Работа фотографа">
+      <img src="Работы/ву.jpg" alt="Работа фотографа">
+      <img src="Работы/иа.jpg" alt="Работа фотографа">
+      <img src="Работы/уцуц.jpg" alt="Работа фотографа">
+      <img src="Работы/yKRHI6ptQzQZ8h5zCkwgp_pdHEhwIIioxnmC3K8b_bJNbu59vKZLIUZbUGgTLGozrJE61Z61pApT31QcXqDF1AbY.jpg" alt="Работа фотографа">
+    </div>
+
+    <!-- Центральная карточка имени -->
+    <div class="name-card" id="nameCard">
+      <h1 class="name-card__title">Лена Королева</h1>
+      <p class="name-card__bio">
+        Фотограф из Пензы. Три года снимаю свадьбы, семейные истории и портреты — сохраняю настоящие эмоции, а не постановочные позы.
+      </p>
+      <a class="name-card__link" href="#portfolio">Портфолио →</a>
+      <nav class="name-card__nav" aria-label="Основная навигация">
+        <a class="nav-chip" href="https://vk.ru/uslugi-151719827" target="_blank">VK</a>
+        <a class="nav-chip" href="#services">Услуги</a>
+        <a class="nav-chip" href="#reviews">Отзывы</a>
+        <a class="nav-chip" href="#faq">FAQ</a>
+        <a class="nav-chip" href="#contacts">Контакты</a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       ПОРТФОЛИО
+  ===================================================================== -->
+  <section class="section section--white" id="portfolio">
+    <div class="section__inner">
+      <h2 class="section__title">Портфолио</h2>
+      <p class="section__subtitle">Свадьбы, семейные съёмки и портреты — каждая история в отдельной галерее.</p>
+
+      <!-- Табы со скользящей пилюлей -->
+      <div class="portfolio__tabs" id="portfolioTabs">
+        <span class="pill-indicator" id="tabIndicator"></span>
+        <button class="portfolio__tab active" data-tab="weddings">Свадьбы</button>
+        <button class="portfolio__tab" data-tab="family">Семейные</button>
+        <button class="portfolio__tab" data-tab="portraits">Портреты</button>
+      </div>
+
+      <!-- Свадьбы -->
+      <div class="portfolio__grid" id="tab-weddings">
+        <img src="Работы/1.jpg" alt="Свадьба">
+        <img src="Работы/12.jpg" alt="Свадьба">
+        <img src="Работы/123.jpg" alt="Свадьба">
+        <img src="Работы/1234.jpg" alt="Свадьба">
+        <img src="Работы/16.jpg" alt="Свадьба">
+        <img src="Работы/65.jpg" alt="Свадьба">
+        <img src="Работы/аццу.jpg" alt="Свадьба">
+        <img src="Работы/уцуц.jpg" alt="Свадьба">
+        <img src="Работы/вп.jpg" alt="Свадьба">
+        <img src="Работы/е.jpg" alt="Свадьба">
+      </div>
+
+      <!-- Семейные -->
+      <div class="portfolio__grid" id="tab-family" style="display:none;">
+        <img src="Работы/2.jpg" alt="Семейная съёмка">
+        <img src="Работы/3.jpg" alt="Семейная съёмка">
+        <img src="Работы/4.jpg" alt="Семейная съёмка">
+        <img src="Работы/5.jpg" alt="Семейная съёмка">
+        <img src="Работы/12345.jpg" alt="Семейная съёмка">
+        <img src="Работы/ввв.jpg" alt="Семейная съёмка">
+        <img src="Работы/ву.jpg" alt="Семейная съёмка">
+        <img src="Работы/к.jpg" alt="Семейная съёмка">
+        <img src="Работы/н.jpg" alt="Семейная съёмка">
+      </div>
+
+      <!-- Портреты -->
+      <div class="portfolio__grid" id="tab-portraits" style="display:none;">
+        <img src="Работы/34.jpg" alt="Портрет">
+        <img src="Работы/chatgpt_image (2).png" alt="Портрет">
+        <img src="Работы/иа.jpg" alt="Портрет">
+        <img src="Работы/yKRHI6ptQzQZ8h5zCkwgp_pdHEhwIIioxnmC3K8b_bJNbu59vKZLIUZbUGgTLGozrJE61Z61pApT31QcXqDF1AbY.jpg" alt="Портрет">
+        <img src="Работы/нне.jpg" alt="Портрет">
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       УСЛУГИ И ЦЕНЫ
+  ===================================================================== -->
+  <section class="section section--white" id="services">
+    <div class="section__inner">
+      <h2 class="section__title">Услуги и стоимость</h2>
+      <p class="section__subtitle">Выберите формат. Если нужно что-то особенное — напишите, обсудим индивидуально.</p>
+
+      <div class="services__grid">
+        <!-- Портретная съёмка -->
+        <div class="service-card">
+          <h3 class="service-card__title">Портретная съёмка</h3>
+          <p class="service-card__duration">1 час · студия или улица</p>
+          <ul class="service-card__features">
+            <li>помощь с образами</li>
+            <li>30+ обработанных фото</li>
+            <li>онлайн-галерея</li>
+          </ul>
+          <div class="service-card__price">6 000 ₽</div>
+        </div>
+
+        <!-- Семейная съёмка (популярная) -->
+        <div class="service-card service-card--popular">
+          <h3 class="service-card__title">Семейная съёмка</h3>
+          <p class="service-card__duration">1,5–2 часа · студия, улица или дома</p>
+          <ul class="service-card__features">
+            <li>помощь с идеей и образами</li>
+            <li>50+ обработанных фото</li>
+            <li>онлайн-галерея</li>
+          </ul>
+          <div class="service-card__price">8 000 ₽</div>
+        </div>
+
+        <!-- Свадебная съёмка -->
+        <div class="service-card">
+          <h3 class="service-card__title">Свадебная съёмка</h3>
+          <p class="service-card__duration">от 2 часов · сопровождение дня</p>
+          <ul class="service-card__features">
+            <li>предварительная встреча</li>
+            <li>200+ обработанных фото</li>
+            <li>онлайн-галерея</li>
+          </ul>
+          <div class="service-card__price">от 15 000 ₽</div>
+        </div>
+      </div>
+
+      <p class="services__footer">
+        <a href="https://vk.ru/uslugi-151719827" target="_blank">Напишите мне</a> — обсудим формат и дату.
+      </p>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       ОБО МНЕ
+  ===================================================================== -->
+  <section class="section section--white" id="about">
+    <div class="section__inner">
+      <h2 class="section__title">Обо мне</h2>
+      <p class="section__subtitle">Три года назад фотография стала частью моей жизни — и с тех пор я ловлю самые тёплые моменты.</p>
+
+      <div class="about__grid">
+        <!-- Фото Лены из папки «Фото Лены». Замените src на нужный файл -->
+        <div class="about__photo">
+          <img src="Фото Лены/23.jpg" alt="Лена Королева — фотограф">
+        </div>
+        <div>
+          <div class="about__text">
+            <p>
+              Фотография вошла в мою жизнь неожиданно — три года назад я взяла камеру, чтобы снять день рождения подруги, и уже не смогла остановиться. Оказалось, что в объективе мир становится особенным: каждый взгляд, каждое прикосновение и каждая улыбка рассказывают свою историю.
+            </p>
+            <p>
+              За это время через мои съёмки прошли десятки счастливых семей и пар. Кто-то пришёл за портретом, кто-то — чтобы сохранить тепло свадебного дня. Каждая история для меня важна.
+            </p>
+            <p>
+              Я знаю, как непросто расслабиться перед камерой. Поэтому на съёмке создаю лёгкую, уютную атмосферу, помогаю с образами и позами — вам не нужно уметь позировать, достаточно быть собой. Для меня важно поймать настоящие эмоции: смех до слёз, нежный взгляд украдкой, тёплые объятия.
+            </p>
+            <p>
+              Фотография для меня — возможность остановить время и сохранить чувство. Именно такие истории я и создаю — нежные, живые и настоящие. Пенза и область.
+            </p>
+          </div>
+          <ul class="about__facts">
+            <li>3 года опыта</li>
+            <li>десятки счастливых семей и пар</li>
+            <li>свадьбы, семейные съёмки, портреты</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       ОТЗЫВЫ — скриншоты из папки «Фото отзывов»
+  ===================================================================== -->
+  <section class="section section--white" id="reviews">
+    <div class="section__inner">
+      <h2 class="section__title">Отзывы</h2>
+      <p class="section__subtitle">Тёплые слова от тех, с кем мы уже создали историю.</p>
+
+      <div class="reviews__grid">
+        <div class="review-card">
+          <img src="Фото отзывов/Скриншот 25-09-2026 220840.jpg" alt="Отзыв клиента">
+        </div>
+        <div class="review-card">
+          <img src="Фото отзывов/Скриншот 25-09-2026 220851.jpg" alt="Отзыв клиента">
+        </div>
+        <div class="review-card">
+          <img src="Фото отзывов/Скриншот 25-09-2026 220857.jpg" alt="Отзыв клиента">
+        </div>
+        <div class="review-card">
+          <img src="Фото отзывов/Скриншот 25-09-2026 220903.jpg" alt="Отзыв клиента">
+        </div>
+        <div class="review-card">
+          <img src="Фото отзывов/Скриншот 25-09-2026 220911.jpg" alt="Отзыв клиента">
+        </div>
+        <div class="review-card">
+          <img src="Фото отзывов/Скриншот 25-09-2026 220917.jpg" alt="Отзыв клиента">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       FAQ
+  ===================================================================== -->
+  <section class="section section--black" id="faq">
+    <div class="section__inner">
+      <h2 class="section__title" style="color: var(--color-paper-white);">Частые вопросы</h2>
+      <p class="section__subtitle" style="color: #b0b0b0;">Ответы на то, о чём чаще всего спрашивают.</p>
+
+      <div class="faq__list">
+        <div class="faq__item">
+          <button class="faq__question" type="button">
+            Что надеть на съёмку?
+            <span class="faq__chevron">⌄</span>
+          </button>
+          <div class="faq__answer">
+            <p>Выбирайте то, в чём вам комфортно. Я помогаю с подбором образов: присылаю референсы и обсуждаю цветовую гамму. Для семейных съёмок рекомендую пастельные тона и натуральные ткани — они лучше всего смотрятся в кадре.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__question" type="button">
+            Я не умею позировать — что делать?
+            <span class="faq__chevron">⌄</span>
+          </button>
+          <div class="faq__answer">
+            <p>Это не страшно — почти все клиенты говорят то же самое перед съёмкой. Я подсказываю каждое движение, показываю позы и создаю атмосферу, в которой вы забываете о камере. Уже через 10 минут вы расслабитесь и начнёте получать удовольствие.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__question" type="button">
+            Когда будут готовы фото?
+            <span class="faq__chevron">⌄</span>
+          </button>
+          <div class="faq__answer">
+            <p>Обычно я отдаю готовую галерею в течение 14 дней после съёмки. Цветокоррекцию всех фото — уже через 5 дней. Со свадебными съёмками срок чуть больше, но я всегда держу в курсе и присылаю несколько кадров сразу после съёмки.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__question" type="button">
+            Можно ли сниматься с детьми?
+            <span class="faq__chevron">⌄</span>
+          </button>
+          <div class="faq__answer">
+            <p>Конечно! Семейные съёмки с детьми — одна из моих любимых категорий. Я знаю, как найти подход даже к самым активным малышам, и превращаю съёмку в весёлую игру. Возраст не имеет значения: я снимала и с новорождёнными, и с подростками.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__question" type="button">
+            Как забронировать дату?
+            <span class="faq__chevron">⌄</span>
+          </button>
+          <div class="faq__answer">
+            <p>Напишите мне в VK — обсудим удобную дату, формат и все детали. Для бронирования даты вносится предоплата 1 000 рублей, которая фиксирует время только за вами. Остальная сумма — в день съёмки.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       КОНТАКТЫ / CTA
+  ===================================================================== -->
+  <section class="section section--white" id="contacts">
+    <div class="section__inner">
+      <div class="contacts__cta">
+        <h2 class="section__title">Давайте создадим вашу историю</h2>
+        <p class="contacts__text">
+          Напишите мне в VK — обсудим идею, дату и всё, что важно. Отвечаю быстро и с теплом.
+        </p>
+        <a class="contacts__btn" href="https://vk.ru/uslugi-151719827" target="_blank">Написать в VK</a>
+        <p class="contacts__location">г. Пенза и область</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       ПОДВАЛ
+  ===================================================================== -->
+  <footer class="footer">
+    <div class="footer__name">Лена Королева</div>
+    <div class="footer__city">Пенза, 2026</div>
+    <a class="footer__vk" href="https://vk.ru/uslugi-151719827" target="_blank">Я ВКонтакте</a>
+    <div class="footer__copy">Все права защищены</div>
+  </footer>
+
+  <script>
+    (function() {
+      'use strict';
+
+      /* =====================================================================
+         HERO: появление центральной карточки (Kinetics — Toast Overshoot)
+      ===================================================================== */
+      var nameCard = document.getElementById('nameCard');
+      var heroRevealed = false;
+
+      function revealCard() {
+        if (heroRevealed) return;
+        heroRevealed = true;
+        nameCard.classList.add('visible');
+      }
+
+      window.addEventListener('load', function() {
+        setTimeout(revealCard, 250);
+      });
+
+      /* =====================================================================
+         ТАБЫ ПОРТФОЛИО со скользящей пилюлей (Kinetics — Tab Pill Glide)
+      ===================================================================== */
+      var tabsWrap = document.getElementById('portfolioTabs');
+      var tabButtons = Array.prototype.slice.call(tabsWrap.querySelectorAll('.portfolio__tab'));
+      var indicator = document.getElementById('tabIndicator');
+      var tabPanels = {
+        weddings: document.getElementById('tab-weddings'),
+        family: document.getElementById('tab-family'),
+        portraits: document.getElementById('tab-portraits')
+      };
+
+      function moveIndicator(btn) {
+        indicator.style.left = btn.offsetLeft + 'px';
+        indicator.style.width = btn.offsetWidth + 'px';
+      }
+
+      function activateTab(tabName) {
+        tabButtons.forEach(function(t) {
+          t.classList.toggle('active', t.getAttribute('data-tab') === tabName);
+        });
+        Object.keys(tabPanels).forEach(function(key) {
+          tabPanels[key].style.display = (key === tabName) ? 'grid' : 'none';
+        });
+        var activeBtn = tabButtons.filter(function(t) {
+          return t.getAttribute('data-tab') === tabName;
+        })[0];
+        if (activeBtn) moveIndicator(activeBtn);
+      }
+
+      tabButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          activateTab(btn.getAttribute('data-tab'));
+        });
+      });
+
+      // Стартовая позиция пилюли после загрузки
+      window.addEventListener('load', function() {
+        moveIndicator(tabButtons[0]);
+      });
+
+      /* =====================================================================
+         FAQ — аккордеон с пружинным раскрытием (Kinetics — Accordion Spring)
+      ===================================================================== */
+      var faqQuestions = document.querySelectorAll('.faq__question');
+
+      faqQuestions.forEach(function(q) {
+        q.addEventListener('click', function() {
+          var item = q.parentElement;
+          var isOpen = item.classList.contains('open');
+
+          document.querySelectorAll('.faq__item').forEach(function(el) {
+            el.classList.remove('open');
+          });
+
+          if (!isOpen) {
+            item.classList.add('open');
+          }
+        });
+      });
+
+      /* =====================================================================
+         МАГНИТНЫЕ КНОПКИ-ПИЛЮЛИ (Kinetics — Magnetic Button)
+         Навигация в name-card подтягивается к курсору
+      ===================================================================== */
+      var chips = Array.prototype.slice.call(document.querySelectorAll('.nav-chip'));
+
+      chips.forEach(function(chip) {
+        chip.addEventListener('mousemove', function(e) {
+          var r = chip.getBoundingClientRect();
+          var x = e.clientX - r.left - r.width / 2;
+          var y = e.clientY - r.top - r.height / 2;
+          chip.style.transform = 'translate(' + (x * 0.12) + 'px,' + (y * 0.12) + 'px)';
+        });
+        chip.addEventListener('mouseleave', function() {
+          chip.style.transform = 'translate(0,0)';
+        });
+      });
+
+      /* =====================================================================
+         Пружинный поп-эффект появления секций при скролле
+      ===================================================================== */
+      var revealEls = document.querySelectorAll('.section .section__title, .section .service-card, .section .review-card, .portfolio__grid img');
+
+      if ('IntersectionObserver' in window) {
+        var revealObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.style.animation =
+                'fadeUp 0.6s ' + Math.random().toFixed(1) + 's var(--spring) both';
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+
+        revealEls.forEach(function(el) {
+          revealObserver.observe(el);
+        });
+
+        var styleSheet = document.createElement('style');
+        styleSheet.textContent =
+          '@keyframes fadeUp {' +
+          '  from { opacity: 0; transform: translateY(24px); }' +
+          '  to   { opacity: 1; transform: translateY(0); }' +
+          '}';
+        document.head.appendChild(styleSheet);
+      }
+    })();
+  </script>
+
+</body>
+</html>
